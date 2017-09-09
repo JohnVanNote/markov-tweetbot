@@ -1,3 +1,9 @@
-twitter_keys.properties
+# Extensions
 *.swp
+
+# Directories
 .idea
+
+# Files
+store_tweets.txt
+twitter_keys.properties
