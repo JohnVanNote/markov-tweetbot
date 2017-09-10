@@ -1,5 +1,6 @@
 # Extensions
 *.swp
+*.pyc
 
 # Directories
 .idea

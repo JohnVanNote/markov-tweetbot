@@ -2,96 +2,54 @@
 #
 # John Van Note <johnlvannote@protonmail.com>
 #
-##
+# markov.py
+#
 
-import random
+"""Test Main For MarkovChain'ing"""
+
 import sys
+from MarkovChain import MarkovChain
 
-line1 = "This is a test line"
-line2 = "This is another test line";
-line3 = "Look here, another test line"
-line4 = "Probably should have another test line that ends differently"
-line5 = "You want it to be one way"
-line6 = "But it's the other way"
-line7 = "I need more test lines"
-line8 = "Need to increase randomness"
-line9 = "Who knows how to do that"
-line10 = "Maybe some way to only chooses \'starter\' words"
-line11 = "Like the first word in a line"
-line12 = "I could potentially get into a circular line with this implementation"
+def get_default_lines():
+    """Default Lines for testing"""
 
-class Markov: 
-  END_OF_LINE = "\0"
-  DEFAULT = "\1"
+    default_lines = []
+    default_lines.append("This is a test line")
+    default_lines.append("This is another test line")
+    default_lines.append("Look here, another test line")
+    default_lines.append("Probably should have another test line that ends differently")
+    default_lines.append("You want it to be one way")
+    default_lines.append("But it's the other way")
+    default_lines.append("I need more test lines")
+    default_lines.append("Need to increase randomness")
+    default_lines.append("Who knows how to do that")
+    default_lines.append("Maybe some way to only chooses \'starter\' words")
+    default_lines.append("Like the first word in a line")
+    default_lines.append("I could potentially get into a circular line with this implementation")
 
-  def __init__(self, lines):
-    self.markovDict =  {}
-    for line in lines:
-      self.add(line)
+    return default_lines
 
-  def add(self, line):
-    words = self.parseLine(line)
-    lastword = self.DEFAULT
-    for word in words:
-      if not word in self.markovDict:
-        self.markovDict[word] = []
-      if not lastword == "": 
-        self.markovDict[lastword].append(word)
-      lastword = word
-    self.markovDict[lastword].append(self.END_OF_LINE)
+def main(arg=None):
+    """Main Function"""
 
-  def parseLine(self, line):
-    return line.split()
+    lines = []
+    arg = sys.argv
 
-  def getDictionary(self):
-    return self.markovDict
+    if len(arg) < 2:
+        lines = get_default_lines()
+    else:
+        input_file = open(arg[1], 'r')
+        raw_lines = input_file.read()
+        lines = raw_lines.strip().split('\n')
 
-  def generateLine(self):
-    line = ""
-    randomKey = random.choice(self.markovDict.keys())
-    isDone = False
-    word = randomKey
-    while not isDone:
-      line += word + " "
-      nextWordList = self.markovDict[word]
-      nextWord = random.choice(nextWordList)
-      if (not nextWord == self.END_OF_LINE) and (len(line) < 140):
-        word = nextWord
-      else:
-        isDone = True
-    return line
+    print lines
 
-def main(arg=sys.argv):
-  lines = []
-
-  if len(arg) < 2:  
-    lines.append(line1)
-    lines.append(line2)
-    lines.append(line3)
-    lines.append(line4)
-    lines.append(line5)
-    lines.append(line6)
-    lines.append(line7)
-    lines.append(line8)
-    lines.append(line9)
-    lines.append(line10)
-    lines.append(line11)
-    lines.append(line12)
-
-  else:
-    file = open(arg[1], 'r')
-    allLines = file.read()
-    lines = allLines.strip().split('\n')
-
-  print(lines)
-
-  markov = Markov(lines)
-  mdict = markov.getDictionary()
-  print mdict
-  print markov.generateLine()
-  print markov.generateLine()
-  print markov.generateLine()
-  
+    markov_chain = MarkovChain(lines)
+    markov_dict = markov_chain.get_dictionary()
+    print markov_dict
+    print markov_chain.generate_line()
+    print markov_chain.generate_line()
+    print markov_chain.generate_line()
 
 if __name__ == "__main__":
-  main()
+    main()
