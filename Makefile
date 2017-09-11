@@ -14,9 +14,9 @@ reader = consume_tweets.py
 main = markov.py
 
 srcfiles = \
-					 $(markov_ds) \
-					 $(reader) \
-					 $(main)
+	$(markov_ds) \
+	$(reader) \
+	$(main)
 
 build_chain: 
 	$(EXEC_PY) MarkovChain.py
