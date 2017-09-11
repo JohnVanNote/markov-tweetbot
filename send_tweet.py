@@ -8,8 +8,8 @@
 """Consumes Tweets"""
 
 import ConfigParser
-import json
 import tweepy
+from MarkovChain import MarkovChain
 
 PROP_FILE = 'twitter_keys.properties'
 SKEYS = 'Source_Keys'
@@ -46,21 +46,44 @@ def generate_api(keys):
 
 
 def generate_dict(api, user_id):
-    """Prints tweets to stdout no RT no @"""
+    """Generates Dictionary, no RT no @"""
 
+    tweets = list()
     for tweet in tweepy.Cursor(api.user_timeline, id=user_id).items():
-        #tweet_text = tweet._json['text'].encode('utf-8')
-        tweet_text = json.dumps(tweet).encode('utf-8')
+        tweet_text = tweet._json['text'].encode('utf-8')
+        #tweet_text = json.dumps(tweet).encode('utf-8')
         if not str.startswith(tweet_text, 'RT') and not str.startswith(tweet_text, '@'):
-            print tweet_text
+            tweets.append(tweet_text)
+
+    markov_chain = MarkovChain(tweets)
+    return markov_chain
+
+
+def send_tweet(api, tweet):
+    """Sends a Tweet"""
+
+    if not isinstance(tweet, str):
+        raise TypeError('Tweet must be a String object')
+
+    if len(tweet) > 140:
+        raise Exception('Tweet is over maximum length')
+
+
+    api.update_status(tweet)
 
 
 def main():
     """Main function"""
 
-    properties = parse_properties(PROP_FILE, KEYS)
+    src_props = parse_properties(PROP_FILE, SKEYS)
+    src_api = generate_api(src_props)
+    markov_chain = generate_dict(src_api, src_props[USER_ID])
+    
+    tweet = markov_chain.generate_line()
+    print tweet
+    properties = parse_properties(PROP_FILE, DKEYS)
     api = generate_api(properties)
-    print_tweets(api, properties[USER_ID])
+    send_tweet(api, tweet)
 
 
 if __name__ == "__main__":

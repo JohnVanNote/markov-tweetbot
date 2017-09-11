@@ -12,11 +12,13 @@ TEXT_FILE_STORAGE := store_tweets.txt
 markov_ds = MarkovChain.py
 reader = consume_tweets.py
 main = markov.py
+send = send_tweet.py
 
 srcfiles = \
 	$(markov_ds) \
 	$(reader) \
-	$(main)
+	$(main) \
+	$(send)
 
 build_chain: 
 	$(EXEC_PY) MarkovChain.py
@@ -38,3 +40,6 @@ test_markov:
 
 test_file:
 	$(EXEC_PY) markov.py $(TEXT_FILE_STORAGE)
+
+clean :
+	rm -f *.pyc
