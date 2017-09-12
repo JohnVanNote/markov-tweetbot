@@ -78,7 +78,8 @@ def main():
     src_props = parse_properties(PROP_FILE, SKEYS)
     src_api = generate_api(src_props)
     markov_chain = generate_dict(src_api, src_props[USER_ID])
-    
+    #print markov_chain.get_dictionary()
+
     tweet = markov_chain.generate_line()
     print tweet
     properties = parse_properties(PROP_FILE, DKEYS)

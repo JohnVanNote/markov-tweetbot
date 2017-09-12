@@ -18,10 +18,12 @@ class MarkovChain(object):
 
 
     def get_sol_str(self):
+        """Default Start Of Line String"""
         return self.SOL
 
 
     def get_eol_str(self):
+        """Default End Of Line String"""
         return self.EOL
 
 
@@ -34,7 +36,6 @@ class MarkovChain(object):
 
     def add(self, line):
         """Adds Line to the Dictionary"""
-        
         self.add_words(line.split())
 
 
@@ -64,15 +65,21 @@ class MarkovChain(object):
         if not isinstance(word, str):
             raise TypeError("Word must be and instance of a String")
 
-        if not prev_word in self.dictionary:
-            self.dictionary[prev_word] = []
-        self.dictionary[prev_word].append(word)
+        prev_word_tuple = (prev_word)
+        if not prev_word_tuple in self.dictionary:
+            self.dictionary[prev_word_tuple] = []
+        self.dictionary[prev_word_tuple].append(word)
 
 
     def get_dictionary(self):
         """Gets Dictionary"""
         return self.dictionary
 
+
+    def get_random(self, word):
+        """Gets word"""
+        word_tuple = (word)
+        return random.choice(self.get_dictionary()[word_tuple])
 
     def generate_line(self):
         """Generates a new line based on the dictionary"""
@@ -82,12 +89,11 @@ class MarkovChain(object):
 
         line = ""
         is_not_done = True
-        word = random.choice(self.dictionary[start])
+        word = self.get_random(start)
 
         while is_not_done:
             line += word + " "
-            next_word_list = self.dictionary[word]
-            next_word = random.choice(next_word_list)
+            next_word = self.get_random(word)
             if next_word != self.get_eol_str():
                 word = next_word
             else:

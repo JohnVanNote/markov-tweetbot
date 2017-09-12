@@ -3,7 +3,7 @@
 # @author John Van Note <johnlvannote@protonmail.com>
 #
 
-.SILENT: run
+.SILENT: run tweet
 .PHONY: run
 
 EXEC_PY := python
@@ -40,6 +40,9 @@ test_markov:
 
 test_file:
 	$(EXEC_PY) markov.py $(TEXT_FILE_STORAGE)
+
+tweet:
+	$(EXEC_PY) $(send)
 
 clean :
 	rm -f *.pyc

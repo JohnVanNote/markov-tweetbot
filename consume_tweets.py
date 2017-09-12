@@ -12,7 +12,8 @@ import json
 import tweepy
 
 PROP_FILE = 'twitter_keys.properties'
-KEYS = 'Keys'
+SKEYS = 'SourceKeys'
+DKEYS = 'DestinationKeys'
 CON_KEY = 'consumer_key'
 CON_SEC = 'consumer_secret'
 TOKEN = 'access_token'
@@ -57,7 +58,7 @@ def print_tweets(api, user_id):
 def main():
     """Main function"""
 
-    properties = parse_properties(PROP_FILE, KEYS)
+    properties = parse_properties(PROP_FILE, SKEYS)
     api = generate_api(properties)
     print_tweets(api, properties[USER_ID])
 
