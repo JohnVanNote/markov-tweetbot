@@ -20,6 +20,9 @@ srcfiles = \
 	$(main) \
 	$(send)
 
+init: 
+	pip install -r requirements.txt
+
 build_chain: 
 	$(EXEC_PY) MarkovChain.py
 
