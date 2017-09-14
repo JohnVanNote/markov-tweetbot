@@ -72,6 +72,15 @@ def send_tweet(api, tweet):
     api.update_status(tweet)
 
 
+def decode(string):
+    """Decodes a String"""
+    dec_string = string \
+        .replace('&amp;', '&') \
+        .replace('&lt;', '<') \
+        .replace('&gt;', '>')
+    return dec_string
+
+
 def main():
     """Main function"""
 
@@ -80,8 +89,14 @@ def main():
     markov_chain = generate_dict(src_api, src_props[USER_ID])
     #print markov_chain.get_dictionary()
 
-    tweet = markov_chain.generate_line()
-    print tweet
+    tweetable = False
+    while not tweetable:
+        tweet = markov_chain.generate_line()
+        tweet = decode(tweet)
+        print tweet
+        if len(tweet) < 140:
+            tweetable = True
+
     properties = parse_properties(PROP_FILE, DKEYS)
     api = generate_api(properties)
     send_tweet(api, tweet)
