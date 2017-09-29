@@ -20,11 +20,10 @@ srcfiles = \
 	$(main) \
 	$(send)
 
+all: init tweet
+
 init: 
 	pip install -r requirements.txt
-
-build_chain: 
-	$(EXEC_PY) MarkovChain.py
 
 lint:
 	echo "Linting $(srcfiles)"
@@ -32,17 +31,8 @@ lint:
 		pylint $$src; \
 		done
 
-run:
-	$(EXEC_PY) consume_tweets.py
-
 store_in_file:
 	make run > $(TEXT_FILE_STORAGE)
-
-test_markov:
-	$(EXEC_PY) markov.py
-
-test_file:
-	$(EXEC_PY) markov.py $(TEXT_FILE_STORAGE)
 
 tweet:
 	$(EXEC_PY) $(send)
