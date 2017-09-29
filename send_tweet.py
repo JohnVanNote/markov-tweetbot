@@ -9,9 +9,12 @@
 
 import ConfigParser
 import tweepy
+import os
 from MarkovChain import MarkovChain
 
-PROP_FILE = 'twitter_keys.properties'
+
+#PROP_FILE = os.path.join(os.path.join(os.path.realpath(__file__), '..'), 'twitter_keys.properties')
+PROP_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'twitter_keys.properties')
 SKEYS = 'Source_Keys'
 DKEYS = 'Destination_Keys'
 CON_KEY = 'consumer_key'
