@@ -13,15 +13,13 @@ import os
 from MarkovChain import MarkovChain
 
 
-#PROP_FILE = os.path.join(os.path.join(os.path.realpath(__file__), '..'), 'twitter_keys.properties')
 PROP_FILE = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'twitter_keys.properties')
-SKEYS = 'Source_Keys'
-DKEYS = 'Destination_Keys'
+KEYS = 'Keys'
 CON_KEY = 'consumer_key'
 CON_SEC = 'consumer_secret'
 TOKEN = 'access_token'
 TOKEN_SEC = 'access_token_secret'
-USER_ID = 'user_id'
+SRC_USER_ID = 'src_user_id'
 
 
 def parse_properties(file_name, header):
@@ -35,7 +33,7 @@ def parse_properties(file_name, header):
     keys[CON_SEC] = config.get(header, CON_SEC)
     keys[TOKEN] = config.get(header, TOKEN)
     keys[TOKEN_SEC] = config.get(header, TOKEN_SEC)
-    keys[USER_ID] = config.get(header, USER_ID)
+    keys[SRC_USER_ID] = config.get(header, SRC_USER_ID)
 
     return keys
 
@@ -87,9 +85,9 @@ def decode(string):
 def main():
     """Main function"""
 
-    src_props = parse_properties(PROP_FILE, SKEYS)
-    src_api = generate_api(src_props)
-    markov_chain = generate_dict(src_api, src_props[USER_ID])
+    props = parse_properties(PROP_FILE, KEYS)
+    api = generate_api(props)
+    markov_chain = generate_dict(api, props[SRC_USER_ID])
     #print markov_chain.get_dictionary()
 
     tweetable = False
@@ -100,8 +98,6 @@ def main():
         if len(tweet) < 140:
             tweetable = True
 
-    properties = parse_properties(PROP_FILE, DKEYS)
-    api = generate_api(properties)
     send_tweet(api, tweet)
 
 
