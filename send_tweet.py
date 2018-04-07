@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 #
-#
+# Sends tweets
 # @author John Van Note <johnlvannote@protonmail.com>
-#
 #
 
 """Consumes Tweets"""
@@ -69,12 +68,12 @@ def send_tweet(api, tweet):
     if len(tweet) > 140:
         raise Exception('Tweet is over maximum length')
 
-
     api.update_status(tweet)
 
 
 def decode(string):
     """Decodes a String"""
+
     dec_string = string \
         .replace('&amp;', '&') \
         .replace('&lt;', '<') \
@@ -95,7 +94,7 @@ def main():
         tweet = markov_chain.generate_line()
         tweet = decode(tweet)
         print tweet
-        if len(tweet) < 140:
+        if len(tweet) < 280:
             tweetable = True
 
     send_tweet(api, tweet)
