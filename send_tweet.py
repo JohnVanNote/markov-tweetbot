@@ -87,7 +87,7 @@ def main():
     props = parse_properties(PROP_FILE, KEYS)
     api = generate_api(props)
     markov_chain = generate_dict(api, props[SRC_USER_ID])
-    #print markov_chain.get_dictionary()
+   # print markov_chain.get_dictionary()
 
     tweetable = False
     while not tweetable:

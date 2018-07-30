@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 #
-#
 # @author John Van Note <johnlvannote@protonmail.com>
-#
 #
 
 """Consumes Tweets"""
@@ -12,8 +10,7 @@ import json
 import tweepy
 
 PROP_FILE = 'twitter_keys.properties'
-SKEYS = 'SourceKeys'
-DKEYS = 'DestinationKeys'
+KEYS = 'Keys'
 CON_KEY = 'consumer_key'
 CON_SEC = 'consumer_secret'
 TOKEN = 'access_token'
@@ -58,7 +55,7 @@ def print_tweets(api, user_id):
 def main():
     """Main function"""
 
-    properties = parse_properties(PROP_FILE, SKEYS)
+    properties = parse_properties(PROP_FILE, KEYS)
     api = generate_api(properties)
     print_tweets(api, properties[USER_ID])
 
